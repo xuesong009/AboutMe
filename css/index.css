@@ -1,0 +1,331 @@
+@charset "UTF-8";
+/*reset css*/
+*,
+:before,
+:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*common css*/
+
+/*
+  总结:布局
+    必须设置html height:100%,以便body设置height;
+*/
+html {
+  height: 100%; /*layout*/
+}
+
+body {
+  background: #ccc;
+  height: 100%; /*layout*/
+  position: relative; /*.main position:absolute; .dotList position:fixed;*/
+  overflow: hidden;
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 16px;
+}
+
+/*module css*/
+.main {
+  width: 100%;
+  height: 500%; /*layout*/
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+  /*animation*/
+  -webkit-transition: transform 0.6s;
+  -moz-transition: transform 0.6s;
+  -ms-transition: transform 0.6s;
+  -o-transition: transform 0.6s;
+  transition: transform 0.6s;
+}
+
+.page {
+  width: 100%;
+  height: 20%; /*layout*/
+  /*border: 1px solid blue;*/
+
+  /*滑轮 滚动*/
+  position: relative;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 9;
+  overflow: visible;
+}
+
+/*滚动条 隐藏*/
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.home {
+  background: rgb(255, 255, 255);
+}
+
+.home > .container {
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+  text-align: center;
+  /*border: 1px solid red;*/
+}
+
+.home .meInfo {
+  padding-top: 100px;
+  margin-bottom: 35px;
+}
+
+.meInfo .touxiang {
+  width: 120px;
+  height: 120px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 35px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.meInfo .touxiang > img {
+  width: 100%;
+  display: block;
+}
+
+.meInfo .myName {
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 30px;
+}
+
+.meInfo > .meTab {
+  margin-top: 25px;
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 18px;
+  color: rgb(119, 119, 119);
+}
+
+.contact_info {
+  width: 215px;
+  height: 65px;
+  margin: 0 auto;
+  /*background: #cccccc;*/
+}
+
+.contact_msg {
+  width: 0;
+  height: 30px;
+  margin: 0 auto;
+  font-family: Consolas sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: blue;
+  text-align: center;
+  line-height: 30px;
+  background: #cccccc;
+}
+
+.contact_info > li {
+  height: 35px;
+  float: left;
+}
+
+/*.contact_info > li:hover .contact_msg{
+  display: block;
+  width: 215px;
+}*/
+
+.contact_info > li + li {
+  margin-left: 25px;
+}
+
+.contact_info > li > a {
+  display: block;
+  width: 35px;
+  height: 35px;
+}
+
+.contact_info > li > a > img {
+  display: block;
+  width: 100%;
+}
+
+.contact_info:after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  clear: both;
+}
+
+/** home start **/
+
+/** home end **/
+
+/** dot_nav start **/
+.dotList {
+  /*background: yellow;*/
+  position: fixed;
+  right: 50px;
+  top: 160px;
+  z-index: 15;
+}
+
+.dot {
+  width: 150px;
+  height: 28px;
+  /*border: 1px solid black;*/
+  position: relative;
+  cursor: pointer;
+}
+
+#first_dot {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+#first_dot a {
+  display: block;
+  width: 28px;
+  height: 28px;
+  padding: 2px;
+  margin-right: -8px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 1);
+}
+
+#first_dot a img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  opacity: 1;
+}
+
+#first_dot span {
+  display: inline-block;
+  position: absolute;
+  right: 0px;
+  top: 11px;
+}
+
+.dot a {
+  display: block;
+  width: 14px;
+  height: 14px;
+  padding: 3px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .1);
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  transition: all linear 0.1s;
+}
+
+.dot a:before {
+}
+
+.dot a img {
+  width: 8px;
+  height: 8px;
+  opacity: 0;
+}
+
+.dot span {
+  /*防止width塌陷*/
+  display: inline-block;
+  padding: 4px 0 4px 10px;
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 15px;
+  color: white;
+  border-radius: 5px 0 0 5px;
+  background: rgba(0, 0, 0, 0);
+  position: absolute;
+  right: 0px;
+  top: 4px;
+  transition: all 0.3s linear 0.2s;
+  /*默认不显示*/
+  opacity: 0;
+}
+
+.dot span:after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 12px solid rgba(0, 0, 0, 1);
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  position: absolute;
+  top: 0;
+  right: -12px;
+}
+
+/*hover*/
+.dot:not(:first-child):hover a {
+  transform: scale(2);
+  background: rgba(0, 0, 0, 1);
+  padding: 3px;
+}
+
+.dot:not(#first_dot):hover a img {
+  display: block;
+  /*background: #cccccc;*/
+  transform: scale(1.5);
+  opacity: 1;
+}
+
+.dot:hover span {
+  right: 50px;
+  opacity: 1;
+  background: rgba(0, 0, 0, 1);
+}
+
+#first_dot:hover span {
+  right: 50px;
+  opacity: 1;
+  background: rgba(0, 0, 0, 1);
+}
+
+.dotList > .currentPage {
+  background: red;
+}
+
+/** dot_nav end **/
+
+/** why start **/
+.main > .why {
+  background: url("../images/dh_bj.jpg") no-repeat;
+  background-size: 100% 100%;
+  background-attachment: scroll;
+}
+
+/** why end **/
+
+/** about me start **/
+.main > .aboutMe {
+  background: url("../images/ds_bj.jpg") no-repeat;
+  background-size: 100% 100%;
+  background-attachment: scroll;
+}
+
+/** about me end **/
+
+/** skill start **/
+.main > .skill {
+  background: url("../images/lx_bj.jpg") no-repeat;
+  background-size: 100% 100%;
+  background-attachment: scroll;
+}
+
+/** skill end **/
+
+/** contact Me start **/
+.main > .contactMe {
+  background: red;
+}
+
+/** contact Me end **/
