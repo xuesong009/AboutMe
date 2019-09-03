@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>aboutMe</title>
+  <link rel="stylesheet" href="../libs/reset.css"/>
+
+  <!--
+   总结:布局
+   必须设置html height:100%,以便body设置height;
+  -->
+
+  <style type="text/css">
+    html {
+      height: 100%;
+    }
+
+    body {
+      position: relative;
+      height: 100%;
+      overflow: hidden;
+      font-family: "Microsoft YaHei", sans-serif;
+      font-size: 16px;
+    }
+
+    div.layout {
+      position: absolute;
+      height: 500%;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      -webkit-transition: transform 0.6s;
+      -moz-transition: transform 0.6s;
+      -ms-transition: transform 0.6s;
+      -o-transition: transform 0.6s;
+      transition: transform 0.6s;
+    }
+
+    .layout > .box {
+      width: 100%;
+      height: 20%;
+      background: #cccccc;
+      margin: 0 auto;
+      position: relative;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 9;
+      overflow: visible;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .box:nth-child(2n) {
+      background: green;
+      color: red;
+    }
+
+    /*dot*/
+    div.dotList {
+      position: fixed;
+      right: 10px;
+      top: 100px;
+      /*border: 1px solid red;*/
+      z-index: 15;
+    }
+
+    .dotList > .dot {
+      width: 10px;
+      height: 10px;
+      background: white;
+      margin-bottom: 15px;
+      -webkit-border-radius: 100%;
+      -moz-border-radius: 100%;
+      border-radius: 100%;
+    }
+
+    .dot:hover {
+      background: red;
+      cursor: pointer;
+    }
+
+    .dotList > .currentPage {
+      background: red;
+    }
+  </style>
+</head>
+<body>
+<!--布局-->
+<div class="layout">
+  <div class="box">第一页</div>
+  <div class="box">第二页</div>
+  <div class="box">第三页</div>
+  <div class="box">第四页</div>
+  <div class="box">第五页</div>
+</div>
+
+<div class="dotList">
+  <div class="dot currentPage"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</div>
+
+<script type="text/javascript" src="../libs/jquery-1.12.3.js"></script>
+<script type="text/javascript">
+  window.onload = function () {
+    var $pageNumber = 0;//记录页码,默认第一页
+    var $preDot = $('.dot:first');//默认保存第一个导航圆点
+    $('.dotList').delegate('.dot', 'click', function () {
+      //点击的页码
+      var $pageIndex = $(this).index();
+      //console.log(window.innerHeight);
+      if ($pageNumber != $pageIndex) {//点击的是新页码
+        //滚动距离
+        var $layoutTop = -$pageIndex * window.innerHeight + 'px';
+        //console.log($layoutTop);
+        $('.layout').css('transform', 'translateY(' + $layoutTop + ')');
+        $pageNumber = $pageIndex;
+        $(this).addClass('currentPage');
+        $preDot.removeClass('currentPage');
+        $preDot = $(this);
+      } else {
+        return;
+      }
+    });
+
+    /*滚轮事件*/
+
+    /*
+      * 1.onmousewheel事件：鼠标滚轮滚动事件，会在滚轮滚动时触发，
+      *   但是火狐不支持该属性。
+      *   在火狐中需要使用DOMMouseScroll属性来绑定滚动事件，并且使用
+      *      addEventListener()函数绑定
+      * 2.event.wheelDelta:获取鼠标滚轮滚动的方向
+      *   向下滚动时，该属性取值-120，向上滚动时，取值120.
+      *   火狐不支持。
+      *   在火狐中使用event.detail属性：
+      *     向下滚动为正值，向上滚动为负值。
+      */
+
+    function mwHandler() {
+      //向下滚动滚轮
+      if (event.wheelDelta < 0 || event.detail > 0) {
+        if ($pageNumber >= 4) {
+          return;
+        }
+        $($('.dot').get($pageNumber)).removeClass("currentPage");
+        $pageNumber++;
+        var $layoutTop = -$pageNumber * window.innerHeight + 'px';
+        $('.layout').css('transform', 'translateY(' + $layoutTop + ')');
+        //导航圆点
+        $($('.dot').get($pageNumber)).addClass('currentPage');
+        $preDot = $($('.dot').get($pageNumber));
+        // console.log('向下');
+        // console.log('pageNumber--> ', $pageNumber);
+      } else {//向上滚动滚轮
+        if ($pageNumber <= 0) {
+          return;
+        }
+        $($('.dot').get($pageNumber)).removeClass("currentPage");
+        $pageNumber--;
+        var $layoutTop = -$pageNumber * window.innerHeight + 'px';
+        $('.layout').css('transform', 'translateY(' + $layoutTop + ')');
+        //导航圆点
+        $($('.dot').get($pageNumber)).addClass('currentPage');
+        $preDot = $($('.dot').get($pageNumber));
+        // console.log('向上');
+        // console.log('pageNumber--> ', $pageNumber);
+      }
+    }
+
+    $(document).on('mousewheel', mwHandler);
+  };
+</script>
+</body>
+</html>
